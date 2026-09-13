@@ -1,0 +1,88 @@
+﻿
+//## main ##//
+
+Greet();
+var name = ReceiveName();
+var grades = ReceiveGrades();
+var avgGrade = grades.Average();
+var letterGrade = LetterOf(avgGrade);
+Console.WriteLine($"Student's Name: {name}");
+Console.WriteLine($"Average Grade: {avgGrade:F2}");
+Console.WriteLine($"Letter Grade: {letterGrade}");
+
+
+//## methods ##//
+
+// Displays a welcome message.
+// called by: Main
+static void Greet()
+{
+    Console.WriteLine("## Student Grade Calculator ##");
+}
+
+// Receives input student name.
+// returns: received student name
+// called by: Main
+static string ReceiveName()
+{
+    for (; ; )
+    {
+        Console.Write("Enter your student's name: ");
+        var ln = Console.ReadLine();
+        if (string.IsNullOrWhiteSpace(ln))
+        {
+            Console.WriteLine("Error: student's name is a required field.");
+            continue;
+        }
+        return ln;
+    }
+}
+
+// Receives input grades.
+// returns: list of received grades
+// called by: Main
+static List<decimal> ReceiveGrades()
+{
+    List<decimal> grades = [];
+    for (; ; )
+    {
+        Console.Write("Enter a grade [0..100] (enter nothing to finish): ");
+        var ln = Console.ReadLine();
+        if (string.IsNullOrWhiteSpace(ln))
+        {
+            if (grades.Count == 0)
+            {
+                Console.WriteLine("Error: At least one grade is required.");
+                continue;
+            }
+            return grades;
+        }
+        else if (decimal.TryParse(ln, out var grade))
+        {
+            if (grade is < 0 or > 100)
+            {
+                Console.WriteLine("Error: Grade must be between 0 and 100.");
+                continue;
+            }
+            grades.Add(grade);
+        }
+        else
+        {
+            Console.WriteLine("Error: Grade must be a number between 0 and 100.");
+        }
+    }
+}
+
+// Maps a grade number to a letter.
+// inputs: grade number to map to a letter
+// returns: letter of input grade number
+// called by: Main
+static char LetterOf(decimal grade) => grade switch
+{
+    >= 90 => 'A',
+    >= 80 => 'B',
+    >= 70 => 'C',
+    >= 60 => 'D',
+    _ => 'F',
+};
+
