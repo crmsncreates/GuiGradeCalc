@@ -1,6 +1,3 @@
-using System.Diagnostics;
-using static System.Net.Mime.MediaTypeNames;
-
 namespace GuiGradeCalc
 {
     public partial class GradeCalc : Form
